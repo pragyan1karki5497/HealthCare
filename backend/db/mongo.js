@@ -5,10 +5,17 @@ const mongoose = require("mongoose");
  */
 async function connectMongo() {
   try {
-    await mongoose.connect(process.env.MONGO_URL);
-    console.log("MongoDB connected");
+    const conn = await mongoose.connect(process.env.MONGO_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      // Optional: Enable auto index creation in dev
+      autoIndex: process.env.NODE_ENV !== 'production'
+    });
+
+    console.log(`MongoDB connected: ${conn.connection.host}`);
   } catch (err) {
-    console.error("MongoDB connection error:", err);
+    console.error("MongoDB connection error:", err.message);
+    process.exit(1); // Exit the app if MongoDB fails
   }
 }
 
