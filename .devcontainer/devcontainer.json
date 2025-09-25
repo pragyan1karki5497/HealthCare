@@ -1,0 +1,15 @@
+{
+  "name": "Fullstack AI Workspace",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "backend",
+  "workspaceFolder": "/workspace",
+  "settings": {
+    "terminal.integrated.defaultProfile.linux": "bash"
+  },
+  "extensions": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ms-python.python"
+  ],
+  "postCreateCommand": "npm install --prefix backend && npm install --prefix frontend && pip install -r ai_service/requirements.txt"
+}

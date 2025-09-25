@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    stdin_open: true
+    tty: true
+
+  backend:
+    build: ./backend
+    ports:
+      - "5000:5000"
+    environment:
+      - AI_SERVICE_URL=http://ai_service:8000
+      - POSTGRES_URL=postgresql://postgres:postgres@postgres:5432/mydb
+      - MONGO_URL=mongodb://mongo:27017/mydb
+    depends_on:
+      - ai_service
+      - postgres
+      - mongo
+    stdin_open: true
+    tty: true
+
+  ai_service:
+    build: ./ai_service
+    ports:
+      - "8000:8000"
+
+  postgres:
+    image: postgres:15
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=mydb
+
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
